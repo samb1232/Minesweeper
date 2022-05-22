@@ -7,11 +7,13 @@ import com.samb.minesweeper.game.Status;
 import com.samb.minesweeper.solver.Solver;
 
 import java.awt.*;
+import java.util.LinkedList;
 import java.util.Random;
 
 public class TestBoard extends Board {
 
-    private static final int TESTS_NUMBER = 10;
+    private static final int TESTS_NUMBER = 1;
+
 
     public TestBoard() {
         initBoard();
@@ -21,7 +23,7 @@ public class TestBoard extends Board {
         int not_solved_count = 0;
         for (int test = 0; test < TESTS_NUMBER; test++) {
             newGame();
-            update(getGraphics());
+            solve();
             switch (gameStatus) {
                 case WIN -> win_count++;
                 case LOSE -> lose_count++;
@@ -35,13 +37,25 @@ public class TestBoard extends Board {
         System.exit(0);
     }
 
-    private void initBoard() {
+    @Override
+    protected void initBoard() {
         setPreferredSize(new Dimension(Constants.BOARD_WIDTH, Constants.BOARD_HEIGHT + Constants.PANEL_HEIGHT));
     }
 
     @Override
     public void newGame() {
-        super.newGame();
+        gameStatus = Status.IN_GAME;
+
+        minesLeft = Constants.N_MINES;
+        cellsLeft = Constants.ALL_CELLS - Constants.N_MINES;
+
+        field = new Cell[Constants.ALL_CELLS];
+        cellsWithNumbers = new LinkedList<>();
+
+        for (int i = 0; i < Constants.ALL_CELLS; i++) {
+            field[i] = new Cell(false);
+        }
+
 
         Cell randomCell = field[new Random().nextInt(field.length)];
         fillNeighbours();
@@ -57,13 +71,13 @@ public class TestBoard extends Board {
         makeAllValues();
 
         randomCell.open(this);
-        solve();
+
     }
 
     private void solve() {
         gameStatus = Status.SOLVING;
         Solver solver = new Solver(this);
-        solver.SLEEP_TIME = 5;
+        solver.SLEEP_TIME = 500;
         solver.begin();
         if (gameStatus == Status.SOLVING) gameStatus = Status.IN_GAME;
     }

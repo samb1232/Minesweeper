@@ -24,7 +24,7 @@ public class Board extends JPanel {
         newGame();
     }
 
-    private void initBoard() {
+    protected void initBoard() {
         setPreferredSize(new Dimension(Constants.BOARD_WIDTH, Constants.BOARD_HEIGHT + Constants.PANEL_HEIGHT));
 
         addMouseListener(new MouseHandler(this));
@@ -144,7 +144,6 @@ public class Board extends JPanel {
         field[cell_index].neighbours.add(field[cell_index - Constants.N_COLS - 1]);
         field[cell_index].neighbours.add(field[cell_index - Constants.N_COLS]);
         field[cell_index].neighbours.add(field[cell_index - 1]);
-
     }
 
     public void makeAllValues() {

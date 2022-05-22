@@ -1,14 +1,11 @@
 package com.samb.minesweeper.test;
 
-import com.samb.minesweeper.game.Board;
-import com.samb.minesweeper.game.GameLauncher;
-
 import javax.swing.*;
 import java.awt.*;
 
-public class TestSweeper extends JFrame{
+public class TestLauncher extends JFrame{
 
-    public TestSweeper() {
+    public TestLauncher() {
         add(new TestBoard());
         ImageIcon logo = new ImageIcon("resources/LOGO.png");
         setIconImage(logo.getImage());
@@ -22,6 +19,6 @@ public class TestSweeper extends JFrame{
     }
 
     public static void main(String[] args) {
-        new TestSweeper();
+        new TestLauncher();
     }
 }

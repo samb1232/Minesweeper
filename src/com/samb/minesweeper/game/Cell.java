@@ -39,7 +39,7 @@ public class Cell {
         else if (board.cellsLeft == 0) {
             board.gameOverWin();
         }
-        board.update(board.getGraphics());
+        board.repaint();
     }
 
 
@@ -54,7 +54,7 @@ public class Cell {
                 isFlagged = true;
                 board.minesLeft--;
             }
-            board.update(board.getGraphics());
+            board.repaint();
         }
     }
 
