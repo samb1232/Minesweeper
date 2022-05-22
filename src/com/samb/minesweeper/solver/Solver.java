@@ -1,16 +1,20 @@
+package com.samb.minesweeper.solver;
+
+import com.samb.minesweeper.game.*;
+
 import java.util.Iterator;
-import java.util.concurrent.TimeUnit;
+import java.util.LinkedList;
 
 public class Solver {
     Board board;
 
-    private final int SLEEP_TIME = 200;
+    private final int SLEEP_TIME = 10;
 
     private void openWithDelay(Cell cell) {
         cell.open(board);
-        board.repaint();
+        board.update(board.getGraphics());
         try {
-            TimeUnit.SECONDS.sleep(2);
+            Thread.sleep(SLEEP_TIME);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -18,9 +22,9 @@ public class Solver {
 
     private void flagWithDelay(Cell cell) {
         cell.flag(board);
-        board.repaint();
+        board.update(board.getGraphics());
         try {
-            TimeUnit.SECONDS.sleep(1);
+            Thread.sleep(SLEEP_TIME);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -62,7 +66,7 @@ public class Solver {
                 if (cell.code == getNearCoveredCellsNumber(cell)) {
                     for (Cell neighbour : cell.neighbours) {
                         if (!neighbour.isFlagged && !neighbour.isOpen) {
-                            neighbour.flag(board);
+                            flagWithDelay(neighbour);
                             modified = true;
                         }
                     }
@@ -70,8 +74,34 @@ public class Solver {
                 }
             }
 
+            LinkedList<Cell> cellsToRemove = new LinkedList<>();
 
+            cellIterator = board.cellsWithNumbers.listIterator();
+            while (cellIterator.hasNext()) {
+                Cell cell = cellIterator.next();
+                if (cell.code == getNearFlaggedCellsNumber(cell)) {
+                    for (Cell neighbour : cell.neighbours) {
+                        if (!neighbour.isFlagged && !neighbour.isOpen) {
+                            openWithDelay(neighbour);
+                            modified = true;
+                        }
+                    }
+                    cellsToRemove.add(cell);
+                    break;
+                }
+            }
 
+            for (Cell cell : cellsToRemove) {
+                board.cellsWithNumbers.remove(cell);
+            }
+        }
+
+        if (board.minesLeft == 0) {
+            for (Cell cell : board.field) {
+                if (!cell.isOpen && !cell.isFlagged) {
+                    openWithDelay(cell);
+                }
+            }
         }
     }
 }

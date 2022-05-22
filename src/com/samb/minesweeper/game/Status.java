@@ -1,3 +1,5 @@
+package com.samb.minesweeper.game;
+
 import javax.swing.*;
 import java.awt.*;
 

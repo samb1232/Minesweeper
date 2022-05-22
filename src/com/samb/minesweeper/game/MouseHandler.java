@@ -1,3 +1,7 @@
+package com.samb.minesweeper.game;
+
+import com.samb.minesweeper.solver.Solver;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -56,8 +60,8 @@ public class MouseHandler extends MouseAdapter {
                         board.gameStatus = Status.SOLVING;
                         Solver solver = new Solver(board);
                         solver.begin();
-                        board.repaint();
-                        board.gameStatus = Status.IN_GAME;
+                        board.repaint(); // Возможно не нужно
+                        if (board.gameStatus == Status.SOLVING) board.gameStatus = Status.IN_GAME;
                     }
                 }
             }

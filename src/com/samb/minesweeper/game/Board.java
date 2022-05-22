@@ -1,3 +1,5 @@
+package com.samb.minesweeper.game;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.LinkedList;
@@ -152,7 +154,7 @@ public class Board extends JPanel {
     }
 
     @Override
-    public void paintComponent(Graphics g) {
+    protected void paintComponent(Graphics g) {
 
         // Рисуем доску
         for (int i = 0; i < Constants.N_ROWS; i++) {

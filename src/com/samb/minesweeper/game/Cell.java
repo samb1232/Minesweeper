@@ -1,15 +1,17 @@
+package com.samb.minesweeper.game;
+
 import java.awt.*;
 import java.util.HashSet;
 import java.util.Set;
 
 public class Cell {
 
-    Image image;
-    Set<Cell> neighbours = new HashSet<>();
-    int code;
-    Boolean isOpen = false;
-    Boolean isFlagged = false;
-    Boolean isMine;
+    public Image image;
+    public Set<Cell> neighbours = new HashSet<>();
+    public int code;
+    public Boolean isOpen = false;
+    public Boolean isFlagged = false;
+    public Boolean isMine;
 
     public Cell(Boolean isMine) {
         this.isMine = isMine;
