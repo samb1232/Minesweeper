@@ -38,11 +38,9 @@ public class MouseHandler extends MouseAdapter {
                     board.makeAllValues();
                 }
                 board.field[cellIndex].open(board);
-
             } else if (button == MouseEvent.BUTTON3) {
                 board.field[cellIndex].flag(board);
             }
-            board.repaint();
         } else {
             if (button == MouseEvent.BUTTON1) {
                 int smileIconLocationX = (Constants.BOARD_WIDTH - Constants.CELL_SIZE) / 2;
@@ -60,7 +58,6 @@ public class MouseHandler extends MouseAdapter {
                         board.gameStatus = Status.SOLVING;
                         Solver solver = new Solver(board);
                         solver.begin();
-                        board.repaint(); // Возможно не нужно
                         if (board.gameStatus == Status.SOLVING) board.gameStatus = Status.IN_GAME;
                     }
                 }

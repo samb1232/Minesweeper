@@ -21,13 +21,13 @@ public class Board extends JPanel {
 
     public Board() {
         initBoard();
+        newGame();
     }
 
     private void initBoard() {
         setPreferredSize(new Dimension(Constants.BOARD_WIDTH, Constants.BOARD_HEIGHT + Constants.PANEL_HEIGHT));
 
         addMouseListener(new MouseHandler(this));
-        newGame();
     }
 
     public void newGame() {

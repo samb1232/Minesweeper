@@ -6,9 +6,9 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 public class Solver {
-    Board board;
+    private final Board board;
 
-    private final int SLEEP_TIME = 10;
+    public int SLEEP_TIME = 30;
 
     private void openWithDelay(Cell cell) {
         cell.open(board);
