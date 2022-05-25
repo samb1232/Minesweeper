@@ -12,25 +12,35 @@ import java.util.Random;
 
 public class TestBoard extends Board {
 
-    private static final int TESTS_NUMBER = 1;
+    private int testNumber;
 
 
-    public TestBoard() {
+    public TestBoard(int testsNumber) {
+        this.testNumber=testsNumber;
         initBoard();
 
         int win_count = 0;
         int lose_count = 0;
         int not_solved_count = 0;
-        for (int test = 0; test < TESTS_NUMBER; test++) {
+        for (int test = 0; test < testNumber; test++) {
             newGame();
             solve();
             switch (gameStatus) {
-                case WIN -> win_count++;
-                case LOSE -> lose_count++;
-                case IN_GAME -> not_solved_count++;
+                case WIN -> {
+                    System.out.println("Test " + test + ": WIN");
+                    win_count++;
+                }
+                case LOSE -> {
+                    System.out.println("Test " + test + ": LOSE");
+                    lose_count++;
+                }
+                case IN_GAME -> {
+                    System.out.println("Test " + test + ": NOT SOLVED");
+                    not_solved_count++;
+                }
             }
         }
-        System.out.println("Total tests: " + TESTS_NUMBER);
+        System.out.println("Total tests: " + testNumber);
         System.out.println("Wins: " + win_count);
         System.out.println("Loses: " + lose_count);
         System.out.println("Not solved: " + not_solved_count);
@@ -53,7 +63,7 @@ public class TestBoard extends Board {
         cellsWithNumbers = new LinkedList<>();
 
         for (int i = 0; i < Constants.ALL_CELLS; i++) {
-            field[i] = new Cell(false);
+            field[i] = new Cell(i);
         }
 
 
@@ -77,7 +87,7 @@ public class TestBoard extends Board {
     private void solve() {
         gameStatus = Status.SOLVING;
         Solver solver = new Solver(this);
-        solver.SLEEP_TIME = 500;
+        solver.SLEEP_TIME = 0;
         solver.begin();
         if (gameStatus == Status.SOLVING) gameStatus = Status.IN_GAME;
     }

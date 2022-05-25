@@ -25,6 +25,9 @@ public class Board extends JPanel {
     }
 
     protected void initBoard() {
+
+        if (Constants.N_MINES > Constants.ALL_CELLS - 9) throw new IllegalArgumentException("Too much mines for this board");
+
         setPreferredSize(new Dimension(Constants.BOARD_WIDTH, Constants.BOARD_HEIGHT + Constants.PANEL_HEIGHT));
 
         addMouseListener(new MouseHandler(this));
@@ -40,7 +43,7 @@ public class Board extends JPanel {
         cellsWithNumbers = new LinkedList<>();
 
         for (int i = 0; i < Constants.ALL_CELLS; i++) {
-            field[i] = new Cell(false);
+            field[i] = new Cell(i);
         }
 
         isFirstClick = true;

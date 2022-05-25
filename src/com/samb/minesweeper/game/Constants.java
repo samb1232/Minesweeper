@@ -5,9 +5,9 @@ public final class Constants {
     public static final int CELL_SIZE = 50;
 
     // Количество мин и поле
-    public static final int N_MINES = 30;
-    public static final int N_COLS = 16; // Столбцы
-    public static final int N_ROWS = 12; // Строки
+    public static final int N_MINES = 44;
+    public static final int N_COLS = 9; // Столбцы
+    public static final int N_ROWS = 9; // Строки
 
 
     public static final int BOARD_WIDTH = N_COLS * CELL_SIZE + 1;

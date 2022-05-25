@@ -1,20 +1,21 @@
 package com.samb.minesweeper.game;
 
 import java.awt.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
 
 public class Cell {
 
     public Image image;
-    public Set<Cell> neighbours = new HashSet<>();
+    public ArrayList<Cell> neighbours = new ArrayList<>();
     public int code;
     public Boolean isOpen = false;
     public Boolean isFlagged = false;
-    public Boolean isMine;
+    public Boolean isMine = false;
 
-    public Cell(Boolean isMine) {
-        this.isMine = isMine;
+    public int index;
+
+    public Cell(int index) {
+        this.index = index;
         image = CellValues.getImage(CellValues.FACED_DOWN);
     }
 
@@ -25,8 +26,7 @@ public class Cell {
             image = CellValues.getImage(code);
             if (code != CellValues.BLANK) {
                 board.cellsWithNumbers.add(this);
-            }
-            else {
+            } else {
                 for (Cell cell : neighbours) {
                     cell.open(board);
                 }
@@ -35,8 +35,7 @@ public class Cell {
         }
         if (isMine) {
             board.gameOverLose();
-        }
-        else if (board.cellsLeft == 0) {
+        } else if (board.cellsLeft == 0) {
             board.gameOverWin();
         }
         board.repaint();

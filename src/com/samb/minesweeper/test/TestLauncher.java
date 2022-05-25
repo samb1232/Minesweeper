@@ -6,7 +6,7 @@ import java.awt.*;
 public class TestLauncher extends JFrame{
 
     public TestLauncher() {
-        add(new TestBoard());
+        add(new TestBoard(1000));
         ImageIcon logo = new ImageIcon("resources/LOGO.png");
         setIconImage(logo.getImage());
         setBackground(new Color(185, 185, 185));
