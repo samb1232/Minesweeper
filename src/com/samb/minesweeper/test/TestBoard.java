@@ -12,19 +12,18 @@ import java.util.Random;
 
 public class TestBoard extends Board {
 
-    private int testNumber;
-
 
     public TestBoard(int testsNumber) {
-        this.testNumber=testsNumber;
         initBoard();
 
         int win_count = 0;
         int lose_count = 0;
         int not_solved_count = 0;
-        for (int test = 0; test < testNumber; test++) {
+
+        for (int test = 0; test < testsNumber; test++) {
             newGame();
             solve();
+
             switch (gameStatus) {
                 case WIN -> {
                     System.out.println("Test " + test + ": WIN");
@@ -40,7 +39,8 @@ public class TestBoard extends Board {
                 }
             }
         }
-        System.out.println("Total tests: " + testNumber);
+
+        System.out.println("Total tests: " + testsNumber);
         System.out.println("Wins: " + win_count);
         System.out.println("Loses: " + lose_count);
         System.out.println("Not solved: " + not_solved_count);

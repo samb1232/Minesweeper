@@ -26,7 +26,8 @@ public class Board extends JPanel {
 
     protected void initBoard() {
 
-        if (Constants.N_MINES > Constants.ALL_CELLS - 9) throw new IllegalArgumentException("Too much mines for this board");
+        if (Constants.N_MINES > Constants.ALL_CELLS - 9)
+            throw new IllegalArgumentException("Too much mines for this board");
 
         setPreferredSize(new Dimension(Constants.BOARD_WIDTH, Constants.BOARD_HEIGHT + Constants.PANEL_HEIGHT));
 
@@ -171,7 +172,8 @@ public class Board extends JPanel {
         // Рисуем счетчик мин, Если столбцов больше 5 (Иначе некрасиво)
         if (Constants.N_COLS > 5) {
             for (int i = 2; i >= 0; i--) {
-                Image image = new ImageIcon("resources/digits/" + (minesLeft / (int) Math.pow(10, i)) % 10 + ".png").getImage();
+                Image image = new ImageIcon("resources/digits/" +
+                        (minesLeft / (int) Math.pow(10, i)) % 10 + ".png").getImage();
                 g.drawImage(image, (Constants.MARGIN_WIDTH + Constants.DIGIT_WIDTH * (3 - i)),
                         (Constants.BOARD_HEIGHT + Constants.MARGIN_HEIGHT), this);
             }
@@ -202,11 +204,10 @@ public class Board extends JPanel {
         gameStatus = Status.LOSE;
         for (Cell cell : field) {
             if (cell.isMine) {
-                if (!cell.isFlagged){
+                if (!cell.isFlagged) {
                     cell.image = CellValues.getImage(CellValues.MINE);
                 }
-            }
-            else if (cell.isFlagged) {
+            } else if (cell.isFlagged) {
                 cell.image = CellValues.getImage(CellValues.WRONG_FLAG);
             }
         }

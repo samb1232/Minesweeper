@@ -10,10 +10,13 @@ import java.util.*;
 public class Solver {
     private final Board board;
 
-    public int SLEEP_TIME = 10;
+    public int SLEEP_TIME = 50;
 
-    private void openWithDelay(Cell cell) {
-        cell.open(board);
+    public Solver(Board board) {
+        this.board = board;
+    }
+
+    private void updateBoard() {
         board.update(board.getGraphics());
         try {
             Thread.sleep(SLEEP_TIME);
@@ -22,14 +25,14 @@ public class Solver {
         }
     }
 
+    private void openWithDelay(Cell cell) {
+        cell.open(board);
+        updateBoard();
+    }
+
     private void flagWithDelay(Cell cell) {
         cell.flag(board);
-        board.update(board.getGraphics());
-        try {
-            Thread.sleep(SLEEP_TIME);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        updateBoard();
     }
 
     private int getNearCoveredCellsNumber(Cell cell) {
@@ -52,13 +55,11 @@ public class Solver {
         return flaggedCellsCount;
     }
 
-    public Solver(Board board) {
-        this.board = board;
-    }
 
     public void begin() {
-        while (true) {
-            boolean modified = false;
+        boolean modified = true;
+        while (modified) {
+            modified = false;
 
             // Classic algorithm
             Iterator<Cell> cellIterator = board.cellsWithNumbers.listIterator();
@@ -75,7 +76,7 @@ public class Solver {
                 }
             }
 
-            LinkedList<Cell> cellsToRemove = new LinkedList<>();
+            List<Cell> cellsToRemove = new LinkedList<>();
 
             cellIterator = board.cellsWithNumbers.listIterator();
             while (cellIterator.hasNext()) {
@@ -101,24 +102,25 @@ public class Solver {
 
 
             // Backtracking algorithm
-            HashMap<Cell, Boolean[]> coveredCellsMap = new HashMap<>();
+            Map<Cell, Boolean[]> coveredCellsMap = new HashMap<>();
             for (Cell cell : board.cellsWithNumbers) {
                 for (Cell neighbour : cell.neighbours) {
                     if (!neighbour.isOpen && !neighbour.isFlagged && !coveredCellsMap.containsKey(neighbour)) {
                         // Добавляем к ячейке две дополнительные метки.
-                        coveredCellsMap.put(neighbour, new Boolean[]{false, false}); // первый - canBeMine, второй - isChecked
+                        // первый - canBeMine, второй - isChecked.
+                        coveredCellsMap.put(neighbour, new Boolean[]{false, false});
                     }
                 }
             }
 
 
-            ArrayList<Cell> coveredCells = new ArrayList<>(coveredCellsMap.keySet());
+            List<Cell> coveredCells = new ArrayList<>(coveredCellsMap.keySet());
             coveredCells.sort(Comparator.comparingInt(cell -> cell.index));
 
             if (coveredCells.size() == 0) break;
             int[] mineDistribution = new int[coveredCells.size()];
 
-            boolean isTapok = false;
+            boolean makeMine = false;
             int cellIndex = 0;
 
             while (cellIndex != -1) {
@@ -147,9 +149,9 @@ public class Solver {
                     if (openNeighbour.code == flagCount) {
                         canBeMine = false;
                     }
-                    if (isTapok || uncheckedCellsCount == openNeighbour.code - flagCount) {
+                    if (makeMine || uncheckedCellsCount == openNeighbour.code - flagCount) {
                         shouldBeMine = true;
-                        isTapok = false;
+                        makeMine = false;
                     }
                 }
 
@@ -160,13 +162,7 @@ public class Solver {
 
                         //отрисовка
                         currentCell.image = new ImageIcon("resources/blocks/reverseFlag.png").getImage();
-                        board.update(board.getGraphics());
-                        try {
-                            Thread.sleep(SLEEP_TIME);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        //
+                        updateBoard();
 
                     } else {
                         //backtrack
@@ -176,13 +172,7 @@ public class Solver {
 
                             //отрисовка
                             currentCell.image = new ImageIcon("resources/blocks/10.png").getImage();
-                            board.update(board.getGraphics());
-                            try {
-                                Thread.sleep(SLEEP_TIME);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                            //
+                            updateBoard();
 
                             cellIndex--;
                             if (cellIndex == -1) break;
@@ -190,7 +180,7 @@ public class Solver {
 
                         } while (coveredCellsMap.get(currentCell)[0]);
 
-                        isTapok = true;
+                        makeMine = true;
 
                         continue;
                     }
@@ -216,7 +206,7 @@ public class Solver {
                             currentCell = coveredCells.get(cellIndex);
                         } while (coveredCellsMap.get(currentCell)[0]);
                     }
-                    isTapok = true;
+                    makeMine = true;
                 }
             }
 
@@ -234,14 +224,12 @@ public class Solver {
 
             if (board.gameStatus == Status.WIN) {
                 board.gameOverWin();
-                break;
+                modified = false;
             }
             if (board.gameStatus == Status.LOSE) {
                 board.gameOverLose();
-                break;
+                modified = false;
             }
-
-
         }
     }
 }

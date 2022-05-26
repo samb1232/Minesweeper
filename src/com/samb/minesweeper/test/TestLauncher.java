@@ -3,7 +3,7 @@ package com.samb.minesweeper.test;
 import javax.swing.*;
 import java.awt.*;
 
-public class TestLauncher extends JFrame{
+public class TestLauncher extends JFrame {
 
     public TestLauncher() {
         add(new TestBoard(1000));

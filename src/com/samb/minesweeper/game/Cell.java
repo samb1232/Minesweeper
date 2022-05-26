@@ -2,11 +2,12 @@ package com.samb.minesweeper.game;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Cell {
 
     public Image image;
-    public ArrayList<Cell> neighbours = new ArrayList<>();
+    public List<Cell> neighbours = new ArrayList<>();
     public int code;
     public Boolean isOpen = false;
     public Boolean isFlagged = false;

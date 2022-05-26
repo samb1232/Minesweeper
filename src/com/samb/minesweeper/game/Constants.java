@@ -5,7 +5,7 @@ public final class Constants {
     public static final int CELL_SIZE = 50;
 
     // Количество мин и поле
-    public static final int N_MINES = 44;
+    public static final int N_MINES = 10;
     public static final int N_COLS = 9; // Столбцы
     public static final int N_ROWS = 9; // Строки
 
@@ -19,5 +19,5 @@ public final class Constants {
     public static final int MARGIN_WIDTH = 2;
     public static final int MARGIN_HEIGHT = 5;
 
-    public static final int PANEL_HEIGHT = DIGIT_HEIGHT + 2 * MARGIN_HEIGHT;
+    public static final int PANEL_HEIGHT = DIGIT_HEIGHT + (2 * MARGIN_HEIGHT);
 }
